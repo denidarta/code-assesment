@@ -40,6 +40,7 @@ export const useRegisterStore = create<RegisterState>()(
           completedSteps: new Set([...s.completedSteps, 3]),
         })),
 
+      // Returns the highest step the user is ALLOWED to visit (not necessarily where they should go next).
       getLatestValidStep: () => {
         const { completedSteps } = get();
         if (completedSteps.has(2)) return 3;
@@ -51,7 +52,7 @@ export const useRegisterStore = create<RegisterState>()(
         set({ step1: {}, step2: {}, step3: {}, completedSteps: new Set() }),
     }),
     {
-      name: "register-form",
+      name: "register-form-v1",
       partialize: (state) => ({
         step1: state.step1,
         step2: state.step2,
@@ -59,12 +60,17 @@ export const useRegisterStore = create<RegisterState>()(
         completedSteps: [...state.completedSteps],
       }),
       merge: (persisted: unknown, current) => {
-        const p = persisted as Partial<RegisterState> & {
+        const p = persisted as {
+          step1?: Partial<Step1Data>;
+          step2?: Partial<Step2Data>;
+          step3?: Partial<Step3Data>;
           completedSteps?: number[];
         };
         return {
           ...current,
-          ...p,
+          step1: p.step1 ?? current.step1,
+          step2: p.step2 ?? current.step2,
+          step3: p.step3 ?? current.step3,
           completedSteps: new Set(p.completedSteps ?? []),
         };
       },

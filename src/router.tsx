@@ -4,11 +4,13 @@ import RegisterStep1 from "@/components/register/RegisterStep1";
 import RegisterStep2 from "@/components/register/RegisterStep2";
 import RegisterStep3 from "@/components/register/RegisterStep3";
 import RegisterLayout from "@/pages/register/RegisterLayout";
+import HomePage from "@/pages/HomePage";
+import ThankYouPage from "@/pages/ThankYouPage";
 
 export const router = createBrowserRouter([
   {
     path: "/",
-    element: <Navigate to="/register/step-1" replace />,
+    element: <HomePage />,
   },
   {
     path: "/register",
@@ -47,5 +49,9 @@ export const router = createBrowserRouter([
         element: <Navigate to="/register/step-1" replace />,
       },
     ],
+  },
+  {
+    path: "/register/thank-you",
+    element: <ThankYouPage />,
   },
 ]);

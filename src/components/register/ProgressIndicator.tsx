@@ -17,7 +17,7 @@ export default function ProgressIndicator() {
   const currentStep = match ? Number(match[1]) : 1;
 
   return (
-    <div className="flex items-start gap-0 w-full">
+    <nav aria-label="Progres pendaftaran" className="flex items-start w-full">
       {STEPS.map((step, idx) => {
         const isCompleted = completedSteps.has(step.num);
         const isActive = step.num === currentStep;
@@ -52,7 +52,7 @@ export default function ProgressIndicator() {
                   "flex-1 h-0.5",
                   idx === STEPS.length - 1
                     ? "invisible"
-                    : completedSteps.has(step.num)
+                    : isCompleted
                     ? "bg-primary"
                     : "bg-muted"
                 )}
@@ -70,6 +70,6 @@ export default function ProgressIndicator() {
           </div>
         );
       })}
-    </div>
+    </nav>
   );
 }

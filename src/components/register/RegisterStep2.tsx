@@ -10,11 +10,9 @@ import {
 } from "@/lib/schemas";
 import { useRegisterStore } from "@/stores/registerStore";
 import { Button } from "@/components/ui/button";
-import { Field, FieldLabel } from "@/components/ui/field";
+import { Field, FieldLabel, FieldError } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
-
-const selectClass =
-  "h-9 w-full rounded-md border border-input bg-transparent px-2.5 py-1 text-sm shadow-xs outline-none focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 disabled:opacity-50";
+import { cn, selectClass } from "@/lib/utils";
 
 export default function RegisterStep2() {
   const navigate = useNavigate();
@@ -26,7 +24,7 @@ export default function RegisterStep2() {
     formState: { errors, isValid },
   } = useForm<Step2Data>({
     resolver: zodResolver(step2Schema),
-    defaultValues: savedData as Step2Data,
+    defaultValues: savedData,
     mode: "onChange",
   });
 
@@ -49,17 +47,13 @@ export default function RegisterStep2() {
       <Field>
         <FieldLabel>Tempat Lahir</FieldLabel>
         <Input {...register("tempatLahir")} placeholder="Masukkan tempat lahir" />
-        {errors.tempatLahir && (
-          <p className="text-sm text-destructive">{errors.tempatLahir.message}</p>
-        )}
+        <FieldError>{errors.tempatLahir?.message}</FieldError>
       </Field>
 
       <Field>
         <FieldLabel>Tanggal Lahir</FieldLabel>
         <Input {...register("tanggalLahir")} type="date" />
-        {errors.tanggalLahir && (
-          <p className="text-sm text-destructive">{errors.tanggalLahir.message}</p>
-        )}
+        <FieldError>{errors.tanggalLahir?.message}</FieldError>
       </Field>
 
       <Field>
@@ -70,9 +64,7 @@ export default function RegisterStep2() {
           maxLength={16}
           inputMode="numeric"
         />
-        {errors.nomorKTP && (
-          <p className="text-sm text-destructive">{errors.nomorKTP.message}</p>
-        )}
+        <FieldError>{errors.nomorKTP?.message}</FieldError>
       </Field>
 
       <Field>
@@ -83,9 +75,7 @@ export default function RegisterStep2() {
             <option key={o} value={o}>{o}</option>
           ))}
         </select>
-        {errors.jenisKelamin && (
-          <p className="text-sm text-destructive">{errors.jenisKelamin.message}</p>
-        )}
+        <FieldError>{errors.jenisKelamin?.message}</FieldError>
       </Field>
 
       <Field>
@@ -96,9 +86,7 @@ export default function RegisterStep2() {
             <option key={o} value={o}>{o}</option>
           ))}
         </select>
-        {errors.pendidikanTerakhir && (
-          <p className="text-sm text-destructive">{errors.pendidikanTerakhir.message}</p>
-        )}
+        <FieldError>{errors.pendidikanTerakhir?.message}</FieldError>
       </Field>
 
       <Field>
@@ -109,17 +97,13 @@ export default function RegisterStep2() {
             <option key={o} value={o}>{o}</option>
           ))}
         </select>
-        {errors.statusPernikahan && (
-          <p className="text-sm text-destructive">{errors.statusPernikahan.message}</p>
-        )}
+        <FieldError>{errors.statusPernikahan?.message}</FieldError>
       </Field>
 
       <Field>
         <FieldLabel>Nama Ibu Kandung</FieldLabel>
         <Input {...register("namaIbuKandung")} placeholder="Masukkan nama ibu kandung" />
-        {errors.namaIbuKandung && (
-          <p className="text-sm text-destructive">{errors.namaIbuKandung.message}</p>
-        )}
+        <FieldError>{errors.namaIbuKandung?.message}</FieldError>
       </Field>
 
       <Button type="submit" disabled={!isValid}>

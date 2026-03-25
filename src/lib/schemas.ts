@@ -8,6 +8,7 @@ export const step1Schema = z
       .regex(/^0\d{9,12}$/, "Masukkan nomor handphone yang valid"),
     phoneAlt: z
       .string()
+      .min(1, "Nomor handphone alternatif wajib diisi")
       .regex(/^0\d{9,12}$/, "Masukkan nomor handphone yang valid"),
     email: z.string().email("Format email tidak valid"),
   })

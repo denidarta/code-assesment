@@ -4,15 +4,13 @@ import { useNavigate } from "react-router-dom";
 import { step3Schema, type Step3Data } from "@/lib/schemas";
 import { useRegisterStore } from "@/stores/registerStore";
 import { Button } from "@/components/ui/button";
-import { Field, FieldLabel } from "@/components/ui/field";
+import { Field, FieldLabel, FieldError } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
-
-const selectClass =
-  "h-9 w-full rounded-md border border-input bg-transparent px-2.5 py-1 text-sm shadow-xs outline-none focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 disabled:opacity-50";
+import { cn, selectClass } from "@/lib/utils";
 
 export default function RegisterStep3() {
   const navigate = useNavigate();
-  const { step1, step2, step3: savedData, setStep3 } = useRegisterStore();
+  const { step3: savedData, setStep3 } = useRegisterStore();
 
   const {
     register,
@@ -21,7 +19,7 @@ export default function RegisterStep3() {
     formState: { errors, isValid },
   } = useForm<Step3Data>({
     resolver: zodResolver(step3Schema),
-    defaultValues: savedData as Step3Data,
+    defaultValues: savedData,
     mode: "onChange",
   });
 
@@ -29,6 +27,7 @@ export default function RegisterStep3() {
 
   const onSubmit = (data: Step3Data) => {
     setStep3(data);
+    const { step1, step2 } = useRegisterStore.getState();
     const submission = { step1, step2, step3: data };
     localStorage.setItem("register-submission", JSON.stringify(submission));
     console.log("Submitted:", submission);
@@ -58,19 +57,16 @@ export default function RegisterStep3() {
         <p className="text-xs text-muted-foreground text-right">
           {alamatValue.length}/225
         </p>
-        {errors.alamatKTP && (
-          <p className="text-sm text-destructive">{errors.alamatKTP.message}</p>
-        )}
+        <FieldError>{errors.alamatKTP?.message}</FieldError>
       </Field>
 
       <Field>
         <FieldLabel>Provinsi</FieldLabel>
+        {/* TODO: populate from regional API / static data */}
         <select {...register("provinsi")} className={selectClass}>
           <option value="">Pilih provinsi</option>
         </select>
-        {errors.provinsi && (
-          <p className="text-sm text-destructive">{errors.provinsi.message}</p>
-        )}
+        <FieldError>{errors.provinsi?.message}</FieldError>
       </Field>
 
       <Field>
@@ -78,9 +74,7 @@ export default function RegisterStep3() {
         <select {...register("kotaKabupaten")} className={selectClass}>
           <option value="">Pilih kota / kabupaten</option>
         </select>
-        {errors.kotaKabupaten && (
-          <p className="text-sm text-destructive">{errors.kotaKabupaten.message}</p>
-        )}
+        <FieldError>{errors.kotaKabupaten?.message}</FieldError>
       </Field>
 
       <Field>
@@ -88,9 +82,7 @@ export default function RegisterStep3() {
         <select {...register("kecamatan")} className={selectClass}>
           <option value="">Pilih kecamatan</option>
         </select>
-        {errors.kecamatan && (
-          <p className="text-sm text-destructive">{errors.kecamatan.message}</p>
-        )}
+        <FieldError>{errors.kecamatan?.message}</FieldError>
       </Field>
 
       <Field>
@@ -98,9 +90,7 @@ export default function RegisterStep3() {
         <select {...register("kelurahan")} className={selectClass}>
           <option value="">Pilih kelurahan</option>
         </select>
-        {errors.kelurahan && (
-          <p className="text-sm text-destructive">{errors.kelurahan.message}</p>
-        )}
+        <FieldError>{errors.kelurahan?.message}</FieldError>
       </Field>
 
       <Field>
@@ -111,9 +101,7 @@ export default function RegisterStep3() {
           inputMode="numeric"
           maxLength={5}
         />
-        {errors.kodePos && (
-          <p className="text-sm text-destructive">{errors.kodePos.message}</p>
-        )}
+        <FieldError>{errors.kodePos?.message}</FieldError>
       </Field>
 
       <Button type="submit" disabled={!isValid}>

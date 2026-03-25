@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { step1Schema, type Step1Data } from "@/lib/schemas";
 import { useRegisterStore } from "@/stores/registerStore";
 import { Button } from "@/components/ui/button";
-import { Field, FieldLabel } from "@/components/ui/field";
+import { Field, FieldLabel, FieldError } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 
 export default function RegisterStep1() {
@@ -17,7 +17,7 @@ export default function RegisterStep1() {
     formState: { errors, isValid },
   } = useForm<Step1Data>({
     resolver: zodResolver(step1Schema),
-    defaultValues: savedData as Step1Data,
+    defaultValues: savedData,
     mode: "onChange",
   });
 
@@ -33,9 +33,7 @@ export default function RegisterStep1() {
       <Field>
         <FieldLabel>Nama Lengkap</FieldLabel>
         <Input {...register("nama")} placeholder="Masukkan nama lengkap" />
-        {errors.nama && (
-          <p className="text-sm text-destructive">{errors.nama.message}</p>
-        )}
+        <FieldError>{errors.nama?.message}</FieldError>
       </Field>
 
       <Field>
@@ -45,9 +43,7 @@ export default function RegisterStep1() {
           type="tel"
           placeholder="Masukkan nomor handphone"
         />
-        {errors.phone && (
-          <p className="text-sm text-destructive">{errors.phone.message}</p>
-        )}
+        <FieldError>{errors.phone?.message}</FieldError>
       </Field>
 
       <Field>
@@ -57,9 +53,7 @@ export default function RegisterStep1() {
           type="tel"
           placeholder="Masukkan nomor handphone alternatif"
         />
-        {errors.phoneAlt && (
-          <p className="text-sm text-destructive">{errors.phoneAlt.message}</p>
-        )}
+        <FieldError>{errors.phoneAlt?.message}</FieldError>
       </Field>
 
       <Field>
@@ -69,9 +63,7 @@ export default function RegisterStep1() {
           type="email"
           placeholder="Masukkan alamat email"
         />
-        {errors.email && (
-          <p className="text-sm text-destructive">{errors.email.message}</p>
-        )}
+        <FieldError>{errors.email?.message}</FieldError>
       </Field>
 
       <Button type="submit" disabled={!isValid}>

@@ -1,0 +1,8 @@
+{
+  "rewrites": [
+    {
+      "source": "/api/wilayah/:path*",
+      "destination": "https://wilayah.id/api/:path*"
+    }
+  ]
+}

@@ -42,6 +42,10 @@ export const router = createBrowserRouter([
           </StepGuard>
         ),
       },
+      {
+        path: "*",
+        element: <Navigate to="/register/step-1" replace />,
+      },
     ],
   },
 ]);
